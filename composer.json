@@ -1,0 +1,20 @@
+{
+    "name": "bruno/exquisite-corpse",
+    "require": {
+        "silex/silex": "~2.0",
+        "symfony/form": "~3.0",
+        "symfony/security-csrf": "~3.0",
+        "symfony/twig-bridge": "~3.0",
+        "symfony/translation": "~3.0",
+        "symfony/config": "~3.0",
+        "monolog/monolog": "~1.0",
+        "twig/twig": "~1.0",
+        "twig/extensions": "~1.0",
+        "ddesrosiers/silex-annotation-provider": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "ExquisiteCorpse\\": "src/ExquisiteCorpse/"
+        }
+    }
+}
