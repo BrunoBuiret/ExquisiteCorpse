@@ -4,6 +4,8 @@ namespace ExquisiteCorpse;
 
 use DDesrosiers\SilexAnnotations\AnnotationServiceProvider;
 use Doctrine\Common\Cache\FilesystemCache;
+use ExquisiteCorpse\Repository\GameRepository;
+use MongoDB\Driver\Manager;
 use Monolog\Logger;
 use Silex\Application as BaseApplication;
 use Silex\Provider\CsrfServiceProvider;
@@ -150,6 +152,14 @@ class Application extends BaseApplication
         );
 
         // Register more services
+        // @see http://silex.sensiolabs.org/doc/master/services.html
+        $this['db'] = new Manager('mongodb://online-stuff.fr.nf');
+
+        // @see \ExquisiteCorpse\Repository\GameRepository
+        $this['repository.games'] = function()
+        {
+            return new GameRepository($this['db']);
+        };
     }
 
     /**

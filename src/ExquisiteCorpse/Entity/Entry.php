@@ -17,32 +17,34 @@ use MongoDB\Driver\CursorId;
 class Entry
 {
     /**
-     * @var CursorId
+     * @var CursorId The entry's id.
      */
     protected $id;
 
     /**
-     * @var string
+     * @var string The entry's words.
      */
     protected $words;
 
     /**
-     * @var int
+     * @var int The entry's order in the game.
      */
     protected $order;
 
     /**
-     * @var \DateTime
+     * @var \DateTime The entry's date of creation.
      */
     protected $createdAt;
 
     /**
-     * @var Game
+     * @var Game The entry's game.
      */
     protected $game;
 
     /**
-     * @return CursorId
+     * Gets the entry's id.
+     *
+     * @return CursorId The entry's id.
      */
     public function getId()
     {
@@ -50,7 +52,10 @@ class Entry
     }
 
     /**
-     * @param CursorId $id
+     * Sets the entry's id.
+     *
+     * @param CursorId $id The entry's id.
+     * @return Entry This entry.
      */
     public function setId($id)
     {
@@ -60,7 +65,9 @@ class Entry
     }
 
     /**
-     * @return string
+     * Gets the entry's words.
+     *
+     * @return string The entry's words.
      */
     public function getWords()
     {
@@ -68,7 +75,10 @@ class Entry
     }
 
     /**
-     * @param string $words
+     * Sets the entry's words.
+     *
+     * @param string $words The entry's words.
+     * @return Entry This entry.
      */
     public function setWords($words)
     {
@@ -78,7 +88,9 @@ class Entry
     }
 
     /**
-     * @return int
+     * Gets the entry's order.
+     *
+     * @return int The entry's order.
      */
     public function getOrder()
     {
@@ -86,7 +98,10 @@ class Entry
     }
 
     /**
-     * @param int $order
+     * Sets the entry's order.
+     *
+     * @param int $order The entry's order.
+     * @return Entry This entry.
      */
     public function setOrder($order)
     {
@@ -96,7 +111,9 @@ class Entry
     }
 
     /**
-     * @return \DateTime
+     * Gets the entry's date of creation.
+     *
+     * @return \DateTime The entry's date of creation.
      */
     public function getCreatedAt()
     {
@@ -104,7 +121,10 @@ class Entry
     }
 
     /**
-     * @param \DateTime $createdAt
+     * Sets the entry's date of creation.
+     *
+     * @param \DateTime $createdAt The entry's date of creation.
+     * @return Entry This entry.
      */
     public function setCreatedAt($createdAt)
     {
@@ -114,7 +134,9 @@ class Entry
     }
 
     /**
-     * @return Game
+     * Gets the entry's game.
+     *
+     * @return Game The entry's game.
      */
     public function getGame(): Game
     {
@@ -122,7 +144,10 @@ class Entry
     }
 
     /**
-     * @param Game $game
+     * Sets the entry's game.
+     *
+     * @param Game $game The entry's game.
+     * @return Entry This entry.
      */
     public function setGame($game)
     {

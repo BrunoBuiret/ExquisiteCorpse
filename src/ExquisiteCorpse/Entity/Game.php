@@ -2,7 +2,7 @@
 
 namespace ExquisiteCorpse\Entity;
 
-use MongoDB\Driver\CursorId;
+use MongoDB\BSON\ObjectID;
 
 /**
  * Class Game
@@ -17,32 +17,33 @@ use MongoDB\Driver\CursorId;
 class Game
 {
     /**
-     * @var CursorId
+     * @var ObjectID The game's id.
      */
     protected $id;
 
     /**
-     * @var string
+     * @var string The game's title.
      */
     protected $title;
 
     /**
-     * @var int
+     * @var int The game's number of likes.
      */
     protected $likesNumber;
 
     /**
-     * @var \DateTime
+     * @var \DateTime The game's date of creation
      */
     protected $createdAt;
 
     /**
-     * @var array
+     * @var array The game's entries.
      */
     protected $entries;
 
     /**
-     * @return CursorId
+     * Gets the game's id.
+     * @return ObjectID The game's id.
      */
     public function getId()
     {
@@ -50,7 +51,10 @@ class Game
     }
 
     /**
-     * @param CursorId $id
+     * Sets the game's id.
+     *
+     * @param ObjectID $id The game's id.
+     * @return Game This game.
      */
     public function setId($id)
     {
@@ -60,7 +64,8 @@ class Game
     }
 
     /**
-     * @return string
+     * Gets the game's title.
+     * @return string The game's title.
      */
     public function getTitle()
     {
@@ -68,7 +73,10 @@ class Game
     }
 
     /**
-     * @param string $title
+     * Sets the game's title.
+     *
+     * @param string $title The game's title.
+     * @return Game This game.
      */
     public function setTitle($title)
     {
@@ -78,7 +86,9 @@ class Game
     }
 
     /**
-     * @return int
+     * Gets the game's number of likes.
+     *
+     * @return int The game's number of likes.
      */
     public function getLikesNumber()
     {
@@ -86,7 +96,10 @@ class Game
     }
 
     /**
-     * @param int $likesNumber
+     * Sets the game's number of likes.
+     *
+     * @param int $likesNumber The game's number of likes.
+     * @return Game This game.
      */
     public function setLikesNumber($likesNumber)
     {
@@ -96,7 +109,9 @@ class Game
     }
 
     /**
-     * @return \DateTime
+     * Gets the game's date of creation.
+     *
+     * @return \DateTime The game's date of creation.
      */
     public function getCreatedAt()
     {
@@ -104,7 +119,10 @@ class Game
     }
 
     /**
-     * @param \DateTime $createdAt
+     * Sets the game's date of creation.
+     *
+     * @param \DateTime $createdAt The game's date of creation.
+     * @return Game This game.
      */
     public function setCreatedAt($createdAt)
     {
@@ -114,7 +132,9 @@ class Game
     }
 
     /**
-     * @return array
+     * Gets the game's entries.
+     *
+     * @return array The game's entries.
      */
     public function getEntries()
     {
@@ -122,11 +142,43 @@ class Game
     }
 
     /**
-     * @param array $entries
+     * Sets the game's entries.
+     *
+     * @param array $entries The game's entries.
+     * @return Game This game.
      */
     public function setEntries($entries)
     {
         $this->entries = $entries;
+
+        return $this;
+    }
+
+    /**
+     * Adds an entry to the game.
+     *
+     * @param Entry $entry The entry to add.
+     * @return Game This game.
+     */
+    public function addEntry(Entry $entry)
+    {
+        $this->entries[] = $entry;
+
+        return $this;
+    }
+
+    /**
+     * Removes an entry from the game.
+     *
+     * @param Entry $entry The entry to remove.
+     * @return Game This game.
+     */
+    public function removeEntry(Entry $entry)
+    {
+        if(($index = array_search($entry, $this->entries)) !== false)
+        {
+            unset($this->entries[$index]);
+        }
 
         return $this;
     }
