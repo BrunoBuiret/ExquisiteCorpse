@@ -4,8 +4,7 @@ namespace ExquisiteCorpse\Repository;
 
 use ExquisiteCorpse\Entity\Entry;
 use ExquisiteCorpse\Entity\Game;
-use MongoDB\Driver\Command;
-use MongoDB\Driver\Manager;
+use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Query;
 
 /**
@@ -60,22 +59,27 @@ class GameRepository extends AbstractRepository
 
     public function save(Game $game)
     {
+        $data = $game.toArray();
+        $bulk = new BulkWrite();
 
-        $command = new Command();
         if(!empty($game->getId())) {
-            $data = [
-
-            ];
+            /*
+             *  Game already exists, need to update (COMMAND UPDATE)
+             */
+            $bulk->update($data);
         }
-
-
-
-
+        else {
+            /*
+             *  Game doesn't yet exist, need to create it (COMMAND INSERT)
+             */
+            $bulk->insert($data);
+        }
     }
 
     public function delete(Game $game)
     {
-
+        $bulk = new BulkWrite();
+        $bulk->delete(['_id' => $game->getId()], ['limit' => 1]);
     }
 
     /**
