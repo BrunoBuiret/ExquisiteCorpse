@@ -74,7 +74,7 @@ class Application extends BaseApplication
             new MonologServiceProvider(),
             array(
                 'monolog.name'    => 'exquisite-corpse',
-                'monolog.logfile' => $this->getLogDir(),
+                'monolog.logfile' => $this->getLogDir().$this['environment'].'.log',
                 'monolog.level'   => $this['debug'] ? Logger::DEBUG : Logger::INFO,
             )
         );
