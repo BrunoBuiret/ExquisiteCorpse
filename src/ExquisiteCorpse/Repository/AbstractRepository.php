@@ -1,6 +1,7 @@
 <?php
 
 namespace ExquisiteCorpse\Repository;
+use MongoDB\Driver\Manager;
 
 /**
  * Class AbstractRepository
@@ -15,19 +16,19 @@ namespace ExquisiteCorpse\Repository;
 abstract class AbstractRepository
 {
     /**
-     * @var
+     * @var Manager
      */
-    protected $connection;
+    protected $manager;
 
     /**
      * AbstractRepository constructor.
      *
-     * @param $connection
+     * @param Manager $manager
      */
-    public function __construct($connection)
+    public function __construct(Manager $manager)
     {
         // Initialize properties
-        $this->connection = $connection;
+        $this->manager = $manager;
     }
 
     /**

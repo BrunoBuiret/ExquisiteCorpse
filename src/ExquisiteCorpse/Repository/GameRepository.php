@@ -2,7 +2,10 @@
 
 namespace ExquisiteCorpse\Repository;
 
+use ExquisiteCorpse\Entity\Entry;
 use ExquisiteCorpse\Entity\Game;
+use MongoDB\Driver\Manager;
+use MongoDB\Driver\Query;
 
 /**
  * Class GameRepository
@@ -16,13 +19,23 @@ use ExquisiteCorpse\Entity\Game;
  */
 class GameRepository extends AbstractRepository
 {
+    const COLLECTION = 'exquisite_corpse.games';
+
     /**
      * @param $id
      * @return Game
      */
     public function fetch($id)
     {
+        $query = new Query(['gameID' => $id]);
 
+        $cursor = $this->manager->executeQuery(self::COLLECTION, $query);
+        $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
+
+        foreach($cursor as $document)
+        {
+            $this->buildEntity($document);
+        }
     }
 
     /**
@@ -30,7 +43,18 @@ class GameRepository extends AbstractRepository
      */
     public function fetchAll()
     {
+        $query = new Query([]);
+        $games = [];
 
+        $cursor = $this->manager->executeQuery(self::COLLECTION, $query);
+        $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
+
+        foreach($cursor as $document) {
+
+            $games[] = $this->buildEntity($document);
+        }
+
+        return $games;
     }
 
     public function save(Game $game)
@@ -49,6 +73,29 @@ class GameRepository extends AbstractRepository
      */
     protected function buildEntity($data)
     {
+        $game = new Game();
 
+        $game
+            ->setId($data['id'])
+            ->setTitle($data['title'])
+            ->setLikesNumber($data['like'])
+            ->setCreatedAt($data['createdAt']);
+
+        $entries = [];
+
+        foreach($data['entries'] as $entryData) {
+            $entry = new Entry();
+
+            $entry
+                ->setId($entryData['id'])
+                ->setWords($entryData['words'])
+                ->setOrder($entryData['order'])
+                ->setCreatedAt($entryData['createdAt'])
+                ->setGame($game);
+
+            $entries[] = $entry;
+        }
+
+        return $game;
     }
 }
