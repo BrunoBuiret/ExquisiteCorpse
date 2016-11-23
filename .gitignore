@@ -11,6 +11,7 @@
 
 # Managed by Composer
 /vendor/
+composer.lock
 
 # PHPUnit
 /app/phpunit.xml
