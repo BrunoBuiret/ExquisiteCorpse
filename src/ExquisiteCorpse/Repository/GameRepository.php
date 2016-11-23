@@ -4,6 +4,7 @@ namespace ExquisiteCorpse\Repository;
 
 use ExquisiteCorpse\Entity\Entry;
 use ExquisiteCorpse\Entity\Game;
+use MongoDB\Driver\Command;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\Query;
 
@@ -60,6 +61,16 @@ class GameRepository extends AbstractRepository
     public function save(Game $game)
     {
 
+        $command = new Command();
+        if(!empty($game->getId())) {
+            $data = [
+
+            ];
+        }
+
+
+
+
     }
 
     public function delete(Game $game)
@@ -79,7 +90,8 @@ class GameRepository extends AbstractRepository
             ->setId($data['id'])
             ->setTitle($data['title'])
             ->setLikesNumber($data['like'])
-            ->setCreatedAt($data['createdAt']);
+            ->setCreatedAt($data['createdAt'])
+            ->setFinished($data['isFinished']);
 
         $entries = [];
 

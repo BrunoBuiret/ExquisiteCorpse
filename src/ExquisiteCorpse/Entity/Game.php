@@ -37,6 +37,11 @@ class Game
     protected $createdAt;
 
     /**
+     * @var bool
+     */
+    protected $isFinished;
+
+    /**
      * @var array The game's entries.
      */
     protected $entries;
@@ -132,6 +137,24 @@ class Game
     }
 
     /**
+     * @return boolean
+     */
+    public function isFinished()
+    {
+        return $this->isFinished;
+    }
+
+    /**
+     * @param boolean $isFinished
+     */
+    public function setFinished($isFinished)
+    {
+        $this->isFinished = $isFinished;
+        return $this;
+    }
+
+
+    /**
      * Gets the game's entries.
      *
      * @return array The game's entries.
@@ -181,5 +204,21 @@ class Game
         }
 
         return $this;
+    }
+
+    public function toArray() {
+        $entries = [];
+        foreach($this->entries as $entry) {
+            $entries[] = $entry->toArray();
+        }
+
+        return [
+            '_id' => $this->id,
+            'title' => $this->title,
+            'likes' => $this->likes,
+            'createdAt' => $this->createdAt,
+            'isFinished' => $this->isFinished,
+            'entries' => $entries
+        ];
     }
 }

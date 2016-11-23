@@ -138,7 +138,7 @@ class Entry
      *
      * @return Game The entry's game.
      */
-    public function getGame(): Game
+    public function getGame()
     {
         return $this->game;
     }
@@ -153,5 +153,17 @@ class Entry
     {
         $this->game = $game;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() {
+        return [
+            '_id' => $this->id,
+            'words' => $this->words,
+            'order' => $this->order,
+            'createdAt' => $this->createdAt
+        ];
     }
 }
