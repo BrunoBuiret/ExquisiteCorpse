@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+
+{% block _page_title %}
+    {{ "Exquisite Corpse" }}
+{% endblock %}
+
+{% block _page_body %}
+    <div class="jumbotron">
+        Bonjour, vous pouvez consulter toutes les parties de tous les temps !
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Titre</th>
+                <th>Nombre de likes</th>
+                <th>Commencée le</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for game in games %}
+            <tr>
+                <th scope="row">1</th>
+                <td>
+                    {{ game.getTitle() }}
+                </td>
+                <td>
+                    {{  game.getLikesNumber() }}
+                </td>
+                <td>
+                    {{ game.getCreatedAt() }}
+                </td>
+                <td>
+                    <a href="{{ path("game", {"id": "1"}) }}" class='btn {{ game.isFinished() ? 'btn-info' : 'btn-success'}}'>
+                        {{ game.isFinished() ? "Voir" : "Participer"}}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

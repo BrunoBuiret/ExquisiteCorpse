@@ -3,6 +3,7 @@
 namespace ExquisiteCorpse\Controller;
 
 use DDesrosiers\SilexAnnotations\Annotations as SLX;
+use ExquisiteCorpse\Entity\Game;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -28,19 +29,44 @@ class CommonController extends AbstractController
     public function home()
     {
         return $this->render(
-            'layout.html.twig',
+            'common/home.html.twig',
             array(
-                'lastGames' => array()
+                "games" => array(new Game())
             )
         );
     }
 
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @SLX\Route(
+     *  @SLX\Request(method="GET", uri="/about"),
+     *  @SLX\Bind(routeName="about")
+     * )
+     */
+    public function about()
+    {
+        return $this->render(
+            'common/about.html.twig',
+            array()
+        );
+    }
+
+    /**
      * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @SLX\Route(
+     *  @SLX\Request(method="GET", uri="/games/{id}"),
+     *  @SLX\Bind(routeName="game")
+     * )
      */
     public function game($id)
     {
+        return $this->render(
+          'common/game.html.twig',
+            array(
 
+            )
+        );
     }
 
     /**
