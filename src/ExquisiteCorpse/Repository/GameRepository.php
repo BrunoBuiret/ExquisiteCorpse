@@ -32,10 +32,10 @@ class GameRepository extends AbstractRepository
         $cursor = $this->manager->executeQuery(self::COLLECTION, $query);
         $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
 
-        foreach($cursor as $document)
-        {
-            $this->buildEntity($document);
-        }
+        $documents = $cursor->toArray();
+
+
+        return !empty($documents[0]) ? $this->buildEntity($documents[0]) : 0;
     }
 
     /**
@@ -59,14 +59,14 @@ class GameRepository extends AbstractRepository
 
     public function save(Game $game)
     {
-        $data = $game.toArray();
+        $data = $game->toArray();
         $bulk = new BulkWrite();
 
         if(!empty($game->getId())) {
             /*
              *  Game already exists, need to update (COMMAND UPDATE)
              */
-            $bulk->update($data);
+            $bulk->update(['_id' => $game->getId()], $data);
         }
         else {
             /*
@@ -74,6 +74,8 @@ class GameRepository extends AbstractRepository
              */
             $bulk->insert($data);
         }
+
+
     }
 
     public function delete(Game $game)
