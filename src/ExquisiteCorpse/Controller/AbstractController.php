@@ -44,4 +44,63 @@ abstract class AbstractController
     {
         return new Response($this->app['twig']->render($viewPath, $vars));
     }
+
+    /**
+     * Generates a redirection response to use.
+     *
+     * @param string $routeName The route's name.
+     * @param array $parameters Parameters used to build the route.
+     * @return RedirectResponse The response to send to the client.
+     */
+    protected function redirect($routeName, $parameters = array())
+    {
+        return new RedirectResponse($this->generatePath($routeName, $parameters));
+    }
+    /**
+     * Sends data as JSON to the client.
+     *
+     * @param mixed $data The data to send.
+     * @param int $status The response's status.
+     * @param array $headers The response's additional headers.
+     * @return JsonResponse The response to send to the client.
+     */
+    protected function json($data, $status = 200, $headers = array())
+    {
+        return new JsonResponse($data, $status, $headers);
+    }
+
+    /**
+     * Generates a route's path.
+     *
+     * @param string $routeName The route's name.
+     * @param array $parameters Parameters used to build the route.
+     * @return string The route's path.
+     */
+    protected function generatePath($routeName, $parameters = array())
+    {
+        return $this->app['url_generator']->generate($routeName, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+    }
+
+    /**
+     * Generates a route's absolute URL.
+     *
+     * @param string $routeName The route's name.
+     * @param array $parameters Parameters used to build the route.
+     * @return string The route's absolute URL.
+     */
+    protected function generateUrl($routeName, $parameters = array())
+    {
+        return $this->app['url_generator']->generate($routeName, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+    }
+
+    /**
+     * Adds a flash message to the current session.
+     *
+     * @param string $type The message's type.
+     * @param string $contents The message's contents.
+     */
+    protected function addFlash($type, $contents)
+    {
+        $this->app['session']->getFlashBag()->add($type, $contents);
+    }
 }
