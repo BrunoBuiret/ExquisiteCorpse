@@ -1,8 +1,8 @@
 FROM webdevops/php-nginx
-ENV prod /var/www/html
+ENV prod /app
 WORKDIR ${prod}
-RUN rm -rf *
-ADD * $prod/
+COPY ./ $prod/
+COPY vhost.conf /opt/docker/etc/nginx/vhost.conf
 RUN composer install
 
 EXPOSE 80
