@@ -4,3 +4,6 @@ WORKDIR ${prod}
 RUN rm -rf *
 ADD * $prod/
 RUN composer install
+
+EXPOSE 80
+EXPOSE 443
