@@ -93,9 +93,9 @@ class GameRepository extends AbstractRepository
         $game = new Game();
 
         $game
-            ->setId($data['id'])
+            ->setId($data['_id'])
             ->setTitle($data['title'])
-            ->setLikesNumber($data['like'])
+            ->setLikesNumber($data['likes'])
             ->setCreatedAt($data['createdAt'])
             ->setFinished($data['isFinished']);
 
