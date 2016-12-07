@@ -34,7 +34,7 @@
         </div>
     </nav>
 
-    <div class="container" style="">
+    <div class="container">
         {% if app.session.flashbag.keys|length > 0 %}
             {% for key in app.session.flashbag.keys %}
                 {% for flash in app.session.flashbag.get(key) %}
@@ -48,5 +48,6 @@
         {% block _page_body %}{% endblock %}
     </div>
 
+    <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
 </body>
