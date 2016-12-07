@@ -2,8 +2,6 @@
 
 namespace ExquisiteCorpse\Entity;
 
-use MongoDB\Driver\CursorId;
-
 /**
  * Class Entry
  *
@@ -17,7 +15,7 @@ use MongoDB\Driver\CursorId;
 class Entry
 {
     /**
-     * @var CursorId The entry's id.
+     * @var int The entry's id.
      */
     protected $id;
 
@@ -44,7 +42,7 @@ class Entry
     /**
      * Gets the entry's id.
      *
-     * @return CursorId The entry's id.
+     * @return int The entry's id.
      */
     public function getId()
     {
@@ -54,7 +52,7 @@ class Entry
     /**
      * Sets the entry's id.
      *
-     * @param CursorId $id The entry's id.
+     * @param int $id The entry's id.
      * @return Entry This entry.
      */
     public function setId($id)
@@ -152,15 +150,19 @@ class Entry
     public function setGame($game)
     {
         $this->game = $game;
+
         return $this;
     }
 
     /**
-     * @return array
+     * Gets the entry's data as an array.
+     *
+     * @return array The entry's data as an array.
      */
-    public function toArray() {
+    public function toArray()
+    {
         return [
-            '_id' => $this->id,
+            'id' => $this->id,
             'words' => $this->words,
             'order' => $this->order,
             'createdAt' => $this->createdAt

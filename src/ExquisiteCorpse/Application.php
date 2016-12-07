@@ -5,6 +5,7 @@ namespace ExquisiteCorpse;
 use DDesrosiers\SilexAnnotations\AnnotationServiceProvider;
 use Doctrine\Common\Cache\FilesystemCache;
 use ExquisiteCorpse\Repository\GameRepository;
+use ExquisiteCorpse\Type\EntryType;
 use MongoDB\Driver\Manager;
 use Monolog\Logger;
 use Silex\Application as BaseApplication;
@@ -104,22 +105,25 @@ class Application extends BaseApplication
             {
                 $translator->addLoader('yaml', new YamlFileLoader());
 
-                $finder = new Finder();
-                $finder
-                    ->in(__DIR__.'/Resources/locales/')
-                    ->files()
-                    ->name('*.yml')
-                    ->ignoreDotFiles(true)
-                ;
-
-                foreach($finder as $file)
+                if(is_dir(__DIR__.'/Resources/locales/'))
                 {
-                    $parts = explode('.', $file->getFilename());
-                    $translator->addResource(
-                        'yaml',
-                        $file->getRealPath(),
-                        $parts[0]
-                    );
+                    $finder = new Finder();
+                    $finder
+                        ->in(__DIR__.'/Resources/locales/')
+                        ->files()
+                        ->name('*.yml')
+                        ->ignoreDotFiles(true)
+                    ;
+
+                    foreach($finder as $file)
+                    {
+                        $parts = explode('.', $file->getFilename());
+                        $translator->addResource(
+                            'yaml',
+                            $file->getRealPath(),
+                            $parts[0]
+                        );
+                    }
                 }
 
                 return $translator;
@@ -158,7 +162,12 @@ class Application extends BaseApplication
         // @see \ExquisiteCorpse\Repository\GameRepository
         $this['repository.games'] = function()
         {
-            return new GameRepository($this['db']);
+            return new GameRepository($this['db'], $this['monolog']);
+        };
+
+        $this['form.entry'] = function()
+        {
+            return new EntryType();
         };
     }
 

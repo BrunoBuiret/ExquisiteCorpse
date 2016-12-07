@@ -6,7 +6,11 @@
 
 {% block _page_body %}
     <div class="jumbotron">
-        Bonjour, vous pouvez consulter toutes les parties de tous les temps !
+        <p>Bonjour, vous pouvez consulter toutes les parties de tous les temps !</p>
+        <p> Vous pouvez aussi créer une nouvelle partie en cliquant ici :</p>
+        <a href="{{ path("newGame") }}" class='btn btn-primary'>
+            Nouvelle Partie
+        </a>
     </div>
 
     <table class="table table-striped">
@@ -30,10 +34,10 @@
                     {{  game.getLikesNumber() }}
                 </td>
                 <td>
-                    {{ game.getCreatedAt() }}
+                    {{ game.getCreatedAt()|date("d/m/Y H:i:s") }}
                 </td>
                 <td>
-                    <a href="{{ path("game", {"id": "1"}) }}" class='btn {{ game.isFinished() ? 'btn-info' : 'btn-success'}}'>
+                    <a href="{{ path("game", {"id": game.getId()}) }}" class='btn {{ game.isFinished() ? 'btn-info' : 'btn-success'}}'>
                         {{ game.isFinished() ? "Voir" : "Participer"}}
                     </a>
                 </td>

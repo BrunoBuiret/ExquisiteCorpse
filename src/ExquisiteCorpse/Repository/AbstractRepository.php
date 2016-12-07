@@ -16,7 +16,12 @@ use MongoDB\Driver\Manager;
 abstract class AbstractRepository
 {
     /**
-     * @var Manager
+     * @var string The database's name.
+     */
+    const DATABASE = 'exquisite_corpse';
+
+    /**
+     * @var Manager A reference to the MongoDb manager.
      */
     protected $manager;
 
@@ -32,8 +37,10 @@ abstract class AbstractRepository
     }
 
     /**
-     * @param $data
-     * @return mixed
+     * Builds an entity with data extracted from the database.
+     *
+     * @param array $data The extracted data.
+     * @return mixed The newly built entity.
      */
     protected abstract function buildEntity($data);
 }

@@ -44,7 +44,7 @@ class Game
     /**
      * @var array The game's entries.
      */
-    protected $entries;
+    protected $entries = [];
 
     /**
      * Gets the game's id.
@@ -145,7 +145,8 @@ class Game
     }
 
     /**
-     * @param boolean $isFinished
+     * @param $isFinished
+     * @return $this
      */
     public function setFinished($isFinished)
     {
@@ -206,16 +207,24 @@ class Game
         return $this;
     }
 
-    public function toArray() {
+    /**
+     * Gets the game's data as an array.
+     *
+     * @return array The game's data as an array.
+     */
+    public function toArray()
+    {
         $entries = [];
-        foreach($this->entries as $entry) {
+
+        foreach($this->entries as $entry)
+        {
             $entries[] = $entry->toArray();
         }
 
         return [
             '_id' => $this->id,
             'title' => $this->title,
-            'likes' => $this->likes,
+            'likes' => $this->likesNumber,
             'createdAt' => $this->createdAt,
             'isFinished' => $this->isFinished,
             'entries' => $entries
