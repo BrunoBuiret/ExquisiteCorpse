@@ -80,6 +80,11 @@ class CommonController extends AbstractController
             ;
 
             $game->addEntry($entry);
+            if(count($game->getEntries()) == 10)
+            {
+                $game->setFinished(true);
+            }
+            
             $this->app['repository.games']->save($game);
             $this->addFlash(
                 'success',
