@@ -33,9 +33,9 @@ class CommonController extends AbstractController
     {
         return $this->render(
             'common/home.html.twig',
-            array(
-                "games" => $this->app['repository.games']->fetchAll()
-            )
+            [
+                'games' => $this->app['repository.games']->fetchAll()
+            ]
         );
     }
 
@@ -49,8 +49,7 @@ class CommonController extends AbstractController
     public function about()
     {
         return $this->render(
-            'common/about.html.twig',
-            array()
+            'common/about.html.twig'
         );
     }
 
@@ -96,14 +95,14 @@ class CommonController extends AbstractController
         }
 
         return $this->render(
-          'common/game.html.twig',
-            array(
+            'common/game.html.twig',
+            [
                 'game' => $game,
-                'form' => array(
+                'form' => [
                     'data'   => $form->createView(),
                     'action' => $this->generatePath('game', ['id' => $id])
-                )
-            )
+                ]
+            ]
         );
     }
 
@@ -136,17 +135,18 @@ class CommonController extends AbstractController
                     'Votre partie a été créée !'
                 )
             );
+
             return $this->redirect('home');
         }
 
         return $this->render(
             'common/newGame.html.twig',
-            array(
-                'form' => array(
+            [
+                'form' => [
                     'data'   => $form->createView(),
                     'action' => $this->generatePath('newGame')
-                )
-            )
+                ]
+            ]
         );
     }
 }

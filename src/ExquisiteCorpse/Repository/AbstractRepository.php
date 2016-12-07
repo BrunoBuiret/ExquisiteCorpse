@@ -16,27 +16,31 @@ use MongoDB\Driver\Manager;
 abstract class AbstractRepository
 {
     /**
-     * @var Manager
+     * @var string The database's name.
+     */
+    const DATABASE = 'exquisite_corpse';
+
+    /**
+     * @var Manager A reference to the MongoDb manager.
      */
     protected $manager;
-
-    protected $logger;
 
     /**
      * AbstractRepository constructor.
      *
      * @param Manager $manager
      */
-    public function __construct(Manager $manager, $logger)
+    public function __construct(Manager $manager)
     {
         // Initialize properties
         $this->manager = $manager;
-        $this->logger = $logger;
     }
 
     /**
-     * @param $data
-     * @return mixed
+     * Builds an entity with data extracted from the database.
+     *
+     * @param array $data The extracted data.
+     * @return mixed The newly built entity.
      */
     protected abstract function buildEntity($data);
 }

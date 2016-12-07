@@ -2,8 +2,6 @@
 
 namespace ExquisiteCorpse\Entity;
 
-use MongoDB\Driver\CursorId;
-
 /**
  * Class Entry
  *
@@ -152,13 +150,17 @@ class Entry
     public function setGame($game)
     {
         $this->game = $game;
+
         return $this;
     }
 
     /**
-     * @return array
+     * Gets the entry's data as an array.
+     *
+     * @return array The entry's data as an array.
      */
-    public function toArray() {
+    public function toArray()
+    {
         return [
             'id' => $this->id,
             'words' => $this->words,

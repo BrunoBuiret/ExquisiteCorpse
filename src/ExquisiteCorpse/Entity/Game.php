@@ -207,9 +207,17 @@ class Game
         return $this;
     }
 
-    public function toArray() {
+    /**
+     * Gets the game's data as an array.
+     *
+     * @return array The game's data as an array.
+     */
+    public function toArray()
+    {
         $entries = [];
-        foreach($this->entries as $entry) {
+
+        foreach($this->entries as $entry)
+        {
             $entries[] = $entry->toArray();
         }
 

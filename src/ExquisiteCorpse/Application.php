@@ -105,22 +105,25 @@ class Application extends BaseApplication
             {
                 $translator->addLoader('yaml', new YamlFileLoader());
 
-                $finder = new Finder();
-                $finder
-                    ->in(__DIR__.'/Resources/locales/')
-                    ->files()
-                    ->name('*.yml')
-                    ->ignoreDotFiles(true)
-                ;
-
-                foreach($finder as $file)
+                if(is_dir(__DIR__.'/Resources/locales/'))
                 {
-                    $parts = explode('.', $file->getFilename());
-                    $translator->addResource(
-                        'yaml',
-                        $file->getRealPath(),
-                        $parts[0]
-                    );
+                    $finder = new Finder();
+                    $finder
+                        ->in(__DIR__.'/Resources/locales/')
+                        ->files()
+                        ->name('*.yml')
+                        ->ignoreDotFiles(true)
+                    ;
+
+                    foreach($finder as $file)
+                    {
+                        $parts = explode('.', $file->getFilename());
+                        $translator->addResource(
+                            'yaml',
+                            $file->getRealPath(),
+                            $parts[0]
+                        );
+                    }
                 }
 
                 return $translator;
