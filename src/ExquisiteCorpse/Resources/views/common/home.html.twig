@@ -30,10 +30,10 @@
                     {{  game.getLikesNumber() }}
                 </td>
                 <td>
-                    {{ game.getCreatedAt() }}
+                    {{ game.getCreatedAt()["date"] }}
                 </td>
                 <td>
-                    <a href="{{ path("game", {"id": "1"}) }}" class='btn {{ game.isFinished() ? 'btn-info' : 'btn-success'}}'>
+                    <a href="{{ path("game", {"id": game.getId()}) }}" class='btn {{ game.isFinished() ? 'btn-info' : 'btn-success'}}'>
                         {{ game.isFinished() ? "Voir" : "Participer"}}
                     </a>
                 </td>

@@ -6,6 +6,7 @@ use ExquisiteCorpse\Entity\Entry;
 use ExquisiteCorpse\Entity\Game;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Query;
+use MongoDB\BSON\ObjectID;
 
 /**
  * Class GameRepository
@@ -27,13 +28,12 @@ class GameRepository extends AbstractRepository
      */
     public function fetch($id)
     {
-        $query = new Query(['gameID' => $id]);
+        $query = new Query(['_id' => new ObjectID($id)]);
 
         $cursor = $this->manager->executeQuery(self::COLLECTION, $query);
         $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
 
         $documents = $cursor->toArray();
-
 
         return !empty($documents[0]) ? $this->buildEntity($documents[0]) : 0;
     }

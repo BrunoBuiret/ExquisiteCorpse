@@ -145,7 +145,8 @@ class Game
     }
 
     /**
-     * @param boolean $isFinished
+     * @param $isFinished
+     * @return $this
      */
     public function setFinished($isFinished)
     {
@@ -215,7 +216,7 @@ class Game
         return [
             '_id' => $this->id,
             'title' => $this->title,
-            'likes' => $this->likes,
+            'likes' => $this->likesNumber,
             'createdAt' => $this->createdAt,
             'isFinished' => $this->isFinished,
             'entries' => $entries

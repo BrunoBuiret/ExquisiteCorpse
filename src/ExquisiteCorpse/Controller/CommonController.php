@@ -3,7 +3,8 @@
 namespace ExquisiteCorpse\Controller;
 
 use DDesrosiers\SilexAnnotations\Annotations as SLX;
-use ExquisiteCorpse\Entity\Game;
+use ExquisiteCorpse\Entity\Entry;
+use ExquisiteCorpse\Type\EntryType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -31,7 +32,7 @@ class CommonController extends AbstractController
         return $this->render(
             'common/home.html.twig',
             array(
-                "games" => array(new Game())
+                "games" => $this->app['repository.games']->fetchAll()
             )
         );
     }
@@ -52,19 +53,30 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @param int $id
+     * @param $id
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @SLX\Route(
      *  @SLX\Request(method="GET", uri="/games/{id}"),
      *  @SLX\Bind(routeName="game")
      * )
      */
-    public function game($id)
+    public function game($id, Request $request)
     {
+        $game = $this->app['repository.games']->fetch($id);
+        $entry = new Entry();
+        $form = $this->app['form.factory']->create(EntryType::class, $entry);
+
+        $form->handleRequest($request);
+
         return $this->render(
           'common/game.html.twig',
             array(
-
+                'game' => $game,
+                'form' => array(
+                    'data'   => $form->createView(),
+                    'action' => $this->generatePath('home')
+                )
             )
         );
     }

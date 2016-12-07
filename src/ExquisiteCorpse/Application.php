@@ -5,6 +5,7 @@ namespace ExquisiteCorpse;
 use DDesrosiers\SilexAnnotations\AnnotationServiceProvider;
 use Doctrine\Common\Cache\FilesystemCache;
 use ExquisiteCorpse\Repository\GameRepository;
+use ExquisiteCorpse\Type\EntryType;
 use MongoDB\Driver\Manager;
 use Monolog\Logger;
 use Silex\Application as BaseApplication;
@@ -159,6 +160,11 @@ class Application extends BaseApplication
         $this['repository.games'] = function()
         {
             return new GameRepository($this['db']);
+        };
+
+        $this['form.entry'] = function()
+        {
+            return new EntryType();
         };
     }
 
