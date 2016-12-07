@@ -6,7 +6,11 @@
 
 {% block _page_body %}
     <div class="jumbotron">
-        Bonjour, vous pouvez consulter toutes les parties de tous les temps !
+        <p>Bonjour, vous pouvez consulter toutes les parties de tous les temps !</p>
+        <p> Vous pouvez aussi créer une nouvelle partie en cliquant ici :</p>
+        <a href="{{ path("newGame") }}" class='btn btn-primary'>
+            Nouvelle Partie
+        </a>
     </div>
 
     <table class="table table-striped">

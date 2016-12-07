@@ -4,7 +4,9 @@ namespace ExquisiteCorpse\Controller;
 
 use DDesrosiers\SilexAnnotations\Annotations as SLX;
 use ExquisiteCorpse\Entity\Entry;
+use ExquisiteCorpse\Entity\Game;
 use ExquisiteCorpse\Type\EntryType;
+use ExquisiteCorpse\Type\GameType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -73,7 +75,10 @@ class CommonController extends AbstractController
         {
             $entry
                 ->setCreatedAt(new \DateTime())
-                ->setGame($game);
+                ->setGame($game)
+                ->setId($this->app['repository.games']->getNextEntryId($id))
+            ;
+
             $game->addEntry($entry);
             $this->app['repository.games']->save($game);
             $this->addFlash(
@@ -99,9 +104,44 @@ class CommonController extends AbstractController
 
     /**
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @SLX\Route(
+     *  @SLX\Request(method="GET|POST", uri="/newGame"),
+     *  @SLX\Bind(routeName="newGame")
+     * )
      */
-    public function add(Request $request)
+    public function newGame(Request $request)
     {
+        $game = new Game();
+        $form = $this->app['form.factory']->create(GameType::class, $game);
 
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $game
+                ->setCreatedAt(new \DateTime())
+                ->setFinished(false)
+            ;
+
+            $this->app['repository.games']->save($game);
+            $this->addFlash(
+                'success',
+                sprintf(
+                    'Votre partie a été créée !'
+                )
+            );
+            return $this->redirect('home');
+        }
+
+        return $this->render(
+            'common/newGame.html.twig',
+            array(
+                'form' => array(
+                    'data'   => $form->createView(),
+                    'action' => $this->generatePath('newGame')
+                )
+            )
+        );
     }
 }

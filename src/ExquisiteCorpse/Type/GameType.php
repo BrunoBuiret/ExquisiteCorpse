@@ -25,10 +25,10 @@ class GameType extends AbstractType
     {
         $builder
             ->add(
-                'game',
+                'title',
                 TextType::class,
                 array(
-                    'required' => false
+                    'required' => true
                 )
             )
         ;

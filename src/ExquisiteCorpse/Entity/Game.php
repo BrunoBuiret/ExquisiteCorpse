@@ -44,7 +44,7 @@ class Game
     /**
      * @var array The game's entries.
      */
-    protected $entries;
+    protected $entries = [];
 
     /**
      * Gets the game's id.

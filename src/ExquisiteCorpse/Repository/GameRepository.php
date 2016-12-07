@@ -7,6 +7,7 @@ use ExquisiteCorpse\Entity\Game;
 use MongoDB\Driver\BulkWrite;
 use MongoDB\Driver\Query;
 use MongoDB\BSON\ObjectID;
+use MongoDB\Driver\Command;
 
 /**
  * Class GameRepository
@@ -36,6 +37,25 @@ class GameRepository extends AbstractRepository
         $documents = $cursor->toArray();
 
         return !empty($documents[0]) ? $this->buildEntity($documents[0]) : 0;
+    }
+
+    public function getNextEntryId($gameId)
+    {
+        $command = new Command([
+                'findAndModify' => 'entryCounters',
+                'query'         => ['_id' => $gameId],
+                'update'        => ['$inc' => ['seq' => 1]],
+                'new'           => true,
+                'upsert'        => true,
+            ]
+        );
+
+        $cursor = $this->manager->executeCommand('exquisite_corpse', $command);
+        $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
+
+        $data = current($cursor->toArray());
+
+        return $data['value']['seq'];
     }
 
     /**
@@ -79,6 +99,7 @@ class GameRepository extends AbstractRepository
             /*
              *  Game doesn't yet exist, need to create it (COMMAND INSERT)
              */
+            unset($data['_id']);
             $bulk->insert($data);
         }
 

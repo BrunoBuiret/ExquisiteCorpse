@@ -1,0 +1,14 @@
+{% extends "layout.html.twig" %}
+
+{% block _page_title %}
+    {{ "Exquisite Corpse" }}
+{% endblock %}
+
+{% block _page_body %}
+    {{ form_start(form.data, {method: "post", action: form.action, attr: {class : "form-horizontal"}}) }}
+    <div class="form-group">
+        {{  form_widget(form.data.title, {attr: {class: "form-control"}}) }}
+        <button type="submit" class="btn btn-info">Créer</button>
+    </div>
+    {{ form_end(form.data) }}
+{% endblock %}
