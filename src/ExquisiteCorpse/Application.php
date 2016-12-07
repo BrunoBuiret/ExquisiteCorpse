@@ -159,7 +159,7 @@ class Application extends BaseApplication
         // @see \ExquisiteCorpse\Repository\GameRepository
         $this['repository.games'] = function()
         {
-            return new GameRepository($this['db']);
+            return new GameRepository($this['db'], $this['monolog']);
         };
 
         $this['form.entry'] = function()

@@ -59,8 +59,15 @@ class GameRepository extends AbstractRepository
 
     public function save(Game $game)
     {
-        $data = $game->toArray();
+        // Initialize vars
         $bulk = new BulkWrite();
+        $data = $game->toArray();
+        $data['createdAt'] = $data['createdAt']->format('d/m/Y H:i:s');
+
+        foreach($data['entries'] as &$entry)
+        {
+            $entry['createdAt'] = $entry['createdAt']->format('d/m/Y H:i:s');
+        }
 
         if(!empty($game->getId())) {
             /*
@@ -75,7 +82,7 @@ class GameRepository extends AbstractRepository
             $bulk->insert($data);
         }
 
-
+        $this->manager->executeBulkWrite(self::COLLECTION, $bulk);
     }
 
     public function delete(Game $game)
@@ -96,7 +103,7 @@ class GameRepository extends AbstractRepository
             ->setId($data['_id'])
             ->setTitle($data['title'])
             ->setLikesNumber($data['likes'])
-            ->setCreatedAt($data['createdAt'])
+            ->setCreatedAt(\DateTime::createFromFormat('d/m/Y H:i:s', $data['createdAt']))
             ->setFinished($data['isFinished']);
 
         $entries = [];
@@ -108,11 +115,12 @@ class GameRepository extends AbstractRepository
                 ->setId($entryData['id'])
                 ->setWords($entryData['words'])
                 ->setOrder($entryData['order'])
-                ->setCreatedAt($entryData['createdAt'])
+                ->setCreatedAt(\DateTime::createFromFormat('d/m/Y H:i:s', $entryData['createdAt']))
                 ->setGame($game);
 
             $entries[] = $entry;
         }
+        $game->setEntries($entries);
 
         return $game;
     }

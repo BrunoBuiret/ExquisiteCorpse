@@ -4,14 +4,14 @@
     {%  if not game.isFinished() %}
         {{ form_start(form.data, {method: "post", action: form.action, attr: {class : "form-horizontal"}}) }}
             <div class="form-group">
-                {{  form_widget(form.data.entry, {attr: {class: "form-control"}}) }}
+                {{  form_widget(form.data.words, {attr: {class: "form-control"}}) }}
                 <button type="submit" class="btn btn-info">Ajouter</button>
             </div>
-        {{ form_end() }}
+        {{ form_end(form.data) }}
     {% else %}
         <div class="jumbotron">
             {% for entry in game.getEntries() %}
-                {{ entry }}
+                {{ entry.getWords() }}
             {% endfor %}
         </div>
     {% endif %}

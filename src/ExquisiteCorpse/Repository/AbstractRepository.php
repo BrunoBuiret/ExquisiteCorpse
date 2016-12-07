@@ -20,15 +20,18 @@ abstract class AbstractRepository
      */
     protected $manager;
 
+    protected $logger;
+
     /**
      * AbstractRepository constructor.
      *
      * @param Manager $manager
      */
-    public function __construct(Manager $manager)
+    public function __construct(Manager $manager, $logger)
     {
         // Initialize properties
         $this->manager = $manager;
+        $this->logger = $logger;
     }
 
     /**

@@ -57,7 +57,7 @@ class CommonController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * @SLX\Route(
-     *  @SLX\Request(method="GET", uri="/games/{id}"),
+     *  @SLX\Request(method="GET|POST", uri="/games/{id}"),
      *  @SLX\Bind(routeName="game")
      * )
      */
@@ -69,13 +69,29 @@ class CommonController extends AbstractController
 
         $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $entry
+                ->setCreatedAt(new \DateTime())
+                ->setGame($game);
+            $game->addEntry($entry);
+            $this->app['repository.games']->save($game);
+            $this->addFlash(
+                'success',
+                sprintf(
+                    'Votre participation a été enregistrée !'
+                )
+            );
+            return $this->redirect('home');
+        }
+
         return $this->render(
           'common/game.html.twig',
             array(
                 'game' => $game,
                 'form' => array(
                     'data'   => $form->createView(),
-                    'action' => $this->generatePath('home')
+                    'action' => $this->generatePath('game', ['id' => $id])
                 )
             )
         );

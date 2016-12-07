@@ -35,6 +35,16 @@
     </nav>
 
     <div class="container" style="">
+        {% if app.session.flashbag.keys|length > 0 %}
+            {% for key in app.session.flashbag.keys %}
+                {% for flash in app.session.flashbag.get(key) %}
+                    <div class="alert alert-{{ key }} alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        {{ flash }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
         {% block _page_body %}{% endblock %}
     </div>
 
