@@ -7,7 +7,7 @@ At the end, *a wild funny sentence appear !* ![](http://www.pokepedia.fr/images/
 
 ## Run with docker
 ```bash
-docker build -t brunobuiret/exquisitecorpse .  
-docker run -d --name ec -p 80:80 brunobuiret/exquisitecorpse
+docker build -t mrvil/exquisitecorpse .  
+docker run -d --name ec -p 80:80 mrvil/exquisitecorpse
 ```
 

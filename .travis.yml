@@ -9,7 +9,7 @@ services:
 
 before_install:
   - docker build -t mrvil/exquisitecorpse .
-  - docker run -d --name ec -p 80:80 brunobuiret/exquisitecorpse
+  - docker run -d --name ec -p 80:80 mrvil/exquisitecorpse
   - docker ps -a
 
 script:
