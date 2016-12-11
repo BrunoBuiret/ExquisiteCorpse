@@ -13,7 +13,7 @@ before_install:
   - docker ps -a
 
 script:
-  - bundle exec ec bash wget localhost
+  - docker exec ec service nginx status
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
