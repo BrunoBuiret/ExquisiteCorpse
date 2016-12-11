@@ -1,0 +1,22 @@
+# traefik:
+#   image: traefik
+#   command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+#   ports:
+#     - "80:80"
+#     - "8080:8080"
+#     - "443:443"
+#   volumes:
+#     - /var/run/docker.sock:/var/run/docker.sock
+#     - /dev/null:/traefik.toml
+
+exquisitecorpse:
+  image: mrvil/exquisitecorpse
+  ports:
+    - "80:80"
+    - "443:443"
+  labels:
+    - "traefik.backend=exquisitecorpse"
+    - "traefik.frontend.rule=Host:exquisitecorpse.guyl.me"
+
+mongo:
+    image: mongo
