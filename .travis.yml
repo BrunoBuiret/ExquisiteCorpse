@@ -7,9 +7,16 @@ php:
 services:
   - docker
 
+before_install:
+  - docker build -t mrvil/exquisitecorpse .
+  - docker run -d --name ec -p 80:80 brunobuiret/exquisitecorpse
+  - docker ps -a
+
+script:
+  - bundle exec ec bash wget localhost
+
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker build -t mrvil/exquisitecorpse .
     docker push mrvil/exquisitecorpse;
     fi
