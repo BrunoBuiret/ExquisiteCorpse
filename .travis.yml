@@ -7,7 +7,9 @@ php:
 services:
   - docker
 
-before_install:
-- docker build -t brunobuiret/exquisitecorpse .
-- docker run -p 80:80 brunobuiret/exquisitecorpse
-- docker ps -a
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker build -t mrvil/exquisitecorpse .
+    docker push mrvil/exquisitecorpse;
+    fi
