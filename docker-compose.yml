@@ -1,6 +1,6 @@
 traefik:
   image: traefik
-  command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG --acme --acme.entrypoint=https  --acme.domains=exquisitecorpse.guyl.me --acme.email=bastien@guyl.me --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --acme.storagefile=acme.json --docker.domain=localhost
+  command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
   ports:
     - "80:80"
     - "8080:8080"
@@ -8,8 +8,7 @@ traefik:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /dev/null:/traefik.toml
-    - /opt/acme/acme.json:/acme.json
-
+    
 exquisitecorpse:
   image: mrvil/exquisitecorpse
   links:
