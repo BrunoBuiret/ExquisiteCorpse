@@ -11,11 +11,14 @@ traefik:
 
 exquisitecorpse:
   image: mrvil/exquisitecorpse
+  links:
+    - mongo
   labels:
     - "traefik.backend=exquisitecorpse"
-    - "traefik.frontend.rule=Host:exquisitecorpse.guyl"
+    - "traefik.frontend.rule=Host:localhost"
+    - "traefik.port=80"
 
 mongo:
     image: mongo
-    volumes: 
+    volumes:
       - /data:/data
