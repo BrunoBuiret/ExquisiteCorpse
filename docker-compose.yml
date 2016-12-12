@@ -15,7 +15,7 @@ exquisitecorpse:
     - mongo
   labels:
     - "traefik.backend=exquisitecorpse"
-    - "traefik.frontend.rule=Host:localhost"
+    - "traefik.frontend.rule=Host:localhost, exquisitecorpse.guyl.me, ec2-52-16-106-152.eu-west-1.compute.amazonaws.com"
     - "traefik.port=80"
 
 mongo:
