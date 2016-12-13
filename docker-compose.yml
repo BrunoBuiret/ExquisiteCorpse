@@ -8,7 +8,7 @@ traefik:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /dev/null:/traefik.toml
-    - /opt/acme/acme.json:/acme.json
+    - /opt/acme/:/
   labels:
     - "traefik.enable=false"
     
