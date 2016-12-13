@@ -35,7 +35,7 @@ class GameRepository extends AbstractRepository
      * Fetches one game from the database.
      *
      * @param string $id The game's id.
-     * @return Game The wanted {@code Game}, or {@code null} if it doesn't  exist.
+     * @return Game The wanted {@code Game}, or {@code null} if it doesn't exist.
      */
     public function fetch($id)
     {
@@ -62,7 +62,8 @@ class GameRepository extends AbstractRepository
         $cursor = $this->manager->executeQuery(self::FULL_NAME, $query);
         $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
 
-        foreach($cursor as $document) {
+        foreach($cursor as $document)
+        {
 
             $games[] = $this->buildEntity($document);
         }
@@ -124,28 +125,39 @@ class GameRepository extends AbstractRepository
     protected function buildEntity($data)
     {
         $game = new Game();
-
         $game
             ->setId($data['_id'])
             ->setTitle($data['title'])
             ->setLikesNumber($data['likes'])
             ->setCreatedAt(\DateTime::createFromFormat('d/m/Y H:i:s', $data['createdAt']))
             ->setFinished($data['isFinished']);
-
         $entries = [];
 
-        foreach($data['entries'] as $entryData) {
+        foreach($data['entries'] as $entryData)
+        {
             $entry = new Entry();
-
             $entry
                 ->setId($entryData['id'])
                 ->setWords($entryData['words'])
                 ->setOrder($entryData['order'])
                 ->setCreatedAt(\DateTime::createFromFormat('d/m/Y H:i:s', $entryData['createdAt']))
                 ->setGame($game);
-
             $entries[] = $entry;
         }
+
+        usort(
+            $entries,
+            function($a, $b)
+            {
+                if($a == $b)
+                {
+                    return 0;
+                }
+
+                return $a->getCreatedAt() < $b->getCreatedAt() ? -1 : +1;
+            }
+        );
+
         $game->setEntries($entries);
 
         return $game;
@@ -160,15 +172,14 @@ class GameRepository extends AbstractRepository
     public function getNextEntryId($gameId)
     {
         $command = new Command([
-                'findAndModify' => 'entryCounters',
-                'query'         => ['_id' => $gameId],
-                'update'        => ['$inc' => ['seq' => 1]],
-                'new'           => true,
-                'upsert'        => true,
-            ]
-        );
+            'findAndModify' => 'entryCounters',
+            'query'         => ['_id' => $gameId],
+            'update'        => ['$inc' => ['seq' => 1]],
+            'new'           => true,
+            'upsert'        => true,
+        ]);
 
-        $cursor = $this->manager->executeCommand('exquisite_corpse', $command);
+        $cursor = $this->manager->executeCommand(AbstractRepository::DATABASE, $command);
         $cursor->setTypeMap(['root' => 'array', 'document' => 'array', 'array' => 'array']);
 
         $data = current($cursor->toArray());

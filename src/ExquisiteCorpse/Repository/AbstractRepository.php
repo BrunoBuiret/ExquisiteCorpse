@@ -28,7 +28,7 @@ abstract class AbstractRepository
     /**
      * AbstractRepository constructor.
      *
-     * @param Manager $manager
+     * @param Manager $manager A reference to the MongoDb manager.
      */
     public function __construct(Manager $manager)
     {

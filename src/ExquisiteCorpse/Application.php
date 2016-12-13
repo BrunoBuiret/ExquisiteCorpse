@@ -157,8 +157,7 @@ class Application extends BaseApplication
 
         // Register more services
         // @see http://silex.sensiolabs.org/doc/master/services.html
-        // $this['db'] = new Manager('mongodb://mongo');
-        $this['db'] = new Manager('mongodb://online-stuff.fr.nf');
+        $this['db'] = new Manager('mongodb://mongo');
 
         // @see \ExquisiteCorpse\Repository\GameRepository
         $this['repository.games'] = function()
