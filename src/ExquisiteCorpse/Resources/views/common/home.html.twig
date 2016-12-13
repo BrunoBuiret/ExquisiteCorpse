@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% block _page_title %}
-    {{ "Exquisite Corpse" }}
+    Exquisite Corpse
 {% endblock %}
 
 {% block _page_body %}
@@ -10,15 +10,14 @@
             Bonjour, vous pouvez consulter toutes les parties de tous les temps !
         </p>
         <p>
-            Vous pouvez aussi créer une nouvelle partie en cliquant ici :
+            Vous pouvez aussi créer une nouvelle partie en cliquant sur le bouton ci-dessous.
         </p>
         <p>
-            <a href="{{ path("newGame") }}" class="btn btn-primary">
+            <a href="{{ path('newGame') }}" class="btn btn-primary">
                 Nouvelle partie
             </a>
         </p>
     </div>
-
     <table class="table table-striped">
         <thead>
             <tr>
@@ -31,25 +30,25 @@
         </thead>
         <tbody>
             {% for game in games %}
-            <tr>
-                <th scope="row">
-                    {{ loop.index }}
-                </th>
-                <td>
-                    {{ game.getTitle() }}
-                </td>
-                <td>
-                    {{  game.getLikesNumber() }}
-                </td>
-                <td>
-                    {{ game.getCreatedAt()|date("d/m/Y H:i:s") }}
-                </td>
-                <td>
-                    <a href="{{ path("game", {"id": game.getId()}) }}" class='btn {{ game.isFinished() ? 'btn-info' : 'btn-success'}}'>
-                        {{ game.isFinished() ? "Voir" : "Participer"}}
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <th scope="row">
+                        {{ loop.index }}
+                    </th>
+                    <td>
+                        {{ game.getTitle() }}
+                    </td>
+                    <td>
+                        {{  game.getLikesNumber() }}
+                    </td>
+                    <td>
+                        {{ game.getCreatedAt()|date("d/m/Y H:i:s") }}
+                    </td>
+                    <td>
+                        <a href="{{ path("game", {"id": game.getId()}) }}" class='btn {{ game.isFinished() ? 'btn-info' : 'btn-success'}}'>
+                            {{ game.isFinished() ? "Voir" : "Participer"}}
+                        </a>
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
