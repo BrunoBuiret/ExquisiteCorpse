@@ -1,19 +1,40 @@
 {% extends "layout.html.twig" %}
 
+{% block _page_title %}
+    Exquisite Corpse &raquo; {{ game.getTitle() }}
+{% endblock %}
+
 {% block _page_body %}
     {%  if not game.isFinished() %}
+        <h1>
+            {{ game.getTitle() }}
+            <small>Ajouter un mot</small>
+        </h1>
         {{ form_start(form.data, {method: "post", action: form.action, attr: {class : "form-horizontal"}}) }}
             <div class="form-group">
-                {{  form_widget(form.data.words, {attr: {class: "form-control"}}) }}
-                <button type="submit" class="btn btn-info">Ajouter</button>
+                {{ form_label(form.data.words, "Mot*", {label_attr: {class: "col-sm-1 control-label"}}) }}
+                <div class="col-sm-11">
+                    {{ form_widget(form.data.words, {attr: {class: "form-control"}}) }}
+                    {{ form_errors(form.data.words, {attr: {class: "help-block"}}) }}
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-11 col-sm-offset-1">
+                    <button type="submit" class="btn btn-info">Ajouter</button>
+                </div>
             </div>
         {{ form_end(form.data) }}
     {% else %}
+        <h1>
+            {{ game.getTitle() }}
+            <small>Lire la phrase</small>
+        </h1>
         <div class="jumbotron">
-            {% for entry in game.getEntries() %}
-                {{ entry.getWords() }}
-            {% endfor %}
-            .
+            <p>
+                {% for entry in game.getEntries() %}
+                    {{ entry.getWords() }}
+                {% endfor %}
+            </p>
         </div>
     {% endif %}
 {% endblock %}

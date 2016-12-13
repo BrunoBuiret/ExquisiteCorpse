@@ -6,11 +6,17 @@
 
 {% block _page_body %}
     <div class="jumbotron">
-        <p>Bonjour, vous pouvez consulter toutes les parties de tous les temps !</p>
-        <p> Vous pouvez aussi créer une nouvelle partie en cliquant ici :</p>
-        <a href="{{ path("newGame") }}" class='btn btn-primary'>
-            Nouvelle Partie
-        </a>
+        <p>
+            Bonjour, vous pouvez consulter toutes les parties de tous les temps !
+        </p>
+        <p>
+            Vous pouvez aussi créer une nouvelle partie en cliquant ici :
+        </p>
+        <p>
+            <a href="{{ path("newGame") }}" class="btn btn-primary">
+                Nouvelle partie
+            </a>
+        </p>
     </div>
 
     <table class="table table-striped">
@@ -26,7 +32,9 @@
         <tbody>
             {% for game in games %}
             <tr>
-                <th scope="row">1</th>
+                <th scope="row">
+                    {{ loop.index }}
+                </th>
                 <td>
                     {{ game.getTitle() }}
                 </td>
