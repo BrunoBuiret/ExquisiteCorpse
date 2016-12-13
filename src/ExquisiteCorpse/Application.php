@@ -37,7 +37,7 @@ class Application extends BaseApplication
     /**
      * Creates a new Exquisite Corpse application.
      *
-     * @param array $environment The current environment.
+     * @param string $environment The current environment.
      * @param bool $debug Should debugging informations be logged?
      * @param array $values The parameters or objects.
      */
@@ -157,17 +157,13 @@ class Application extends BaseApplication
 
         // Register more services
         // @see http://silex.sensiolabs.org/doc/master/services.html
-        $this['db'] = new Manager('mongodb://mongo');
+        // $this['db'] = new Manager('mongodb://mongo');
+        $this['db'] = new Manager('mongodb://online-stuff.fr.nf');
 
         // @see \ExquisiteCorpse\Repository\GameRepository
         $this['repository.games'] = function()
         {
             return new GameRepository($this['db'], $this['monolog']);
-        };
-
-        $this['form.entry'] = function()
-        {
-            return new EntryType();
         };
     }
 

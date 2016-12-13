@@ -23,7 +23,9 @@ use Symfony\Component\HttpFoundation\Request;
 class CommonController extends AbstractController
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * Displays the home page with every available game.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response The response to send to the client.
      * @SLX\Route(
      *  @SLX\Request(method="GET", uri="/"),
      *  @SLX\Bind(routeName="home")
@@ -40,7 +42,9 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * Displays the "About" page.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response The response to send to the client.
      * @SLX\Route(
      *  @SLX\Request(method="GET", uri="/about"),
      *  @SLX\Bind(routeName="about")
@@ -54,21 +58,26 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @param $id
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * Displays a game page, whether to add a word or to read the sentence.
+     *
+     * @param Request $request The user's request.
+     * @param string $id The game's id.
+     * @return \Symfony\Component\HttpFoundation\Response The response to send to the client.
      * @SLX\Route(
      *  @SLX\Request(method="GET|POST", uri="/games/{id}"),
      *  @SLX\Bind(routeName="game")
      * )
      */
-    public function game($id, Request $request)
+    public function game(Request $request, $id)
     {
+        // Initialize vars
         $game = $this->app['repository.games']->fetch($id);
         $entry = new Entry();
         $form = $this->app['form.factory']->create(EntryType::class, $entry);
 
+        // Handle request
         $form->handleRequest($request);
+
 
         if($form->isSubmitted() && $form->isValid())
         {
@@ -77,8 +86,8 @@ class CommonController extends AbstractController
                 ->setGame($game)
                 ->setId($this->app['repository.games']->getNextEntryId($id))
             ;
-
             $game->addEntry($entry);
+
             if(count($game->getEntries()) == 10)
             {
                 $game->setFinished(true);
@@ -88,9 +97,11 @@ class CommonController extends AbstractController
             $this->addFlash(
                 'success',
                 sprintf(
-                    'Votre participation a été enregistrée !'
+                    'Votre participation à "%s" a été enregistrée !',
+                    $game->getTitle()
                 )
             );
+
             return $this->redirect('home');
         }
 
@@ -107,8 +118,10 @@ class CommonController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * Displays a form to create a new game.
+     *
+     * @param Request $request The user's request.
+     * @return \Symfony\Component\HttpFoundation\Response The response to send to the client.
      * @SLX\Route(
      *  @SLX\Request(method="GET|POST", uri="/newGame"),
      *  @SLX\Bind(routeName="newGame")
@@ -116,9 +129,11 @@ class CommonController extends AbstractController
      */
     public function newGame(Request $request)
     {
+        // Initialize vars
         $game = new Game();
         $form = $this->app['form.factory']->create(GameType::class, $game);
 
+        // Handle request
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -132,7 +147,8 @@ class CommonController extends AbstractController
             $this->addFlash(
                 'success',
                 sprintf(
-                    'Votre partie a été créée !'
+                    'Votre partie "%s" a été créée !',
+                    $game->getTitle()
                 )
             );
 

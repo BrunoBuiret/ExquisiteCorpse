@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>
-        {% block _page_title %}{% endblock %}
-    </title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">body { padding-top: 70px; }</style>
-</head>
-
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>
+            {% block _page_title %}{% endblock %}
+        </title>
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <style type="text/css">body { padding-top: 70px; } h1 { margin-top: 0; } .jumbotron p:last-child { margin-bottom: 0; }</style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Afficher / Cacher la navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="{{ path('home') }}" class="navbar-brand">
+                        Cadavre Exquis
+                    </a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="{{ path('home') }}">
+                                Accueil
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('about') }}">
+                                À propos
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand">Cadavre Exquis</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ path('home') }}">Accueil</a></li>
-                    <li><a href="{{ path('about') }}">À Propos</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        {% if app.session.flashbag.keys|length > 0 %}
-            {% for key in app.session.flashbag.keys %}
-                {% for flash in app.session.flashbag.get(key) %}
-                    <div class="alert alert-{{ key }} alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                        {{ flash }}
-                    </div>
+            {% if app.session.flashbag.keys|length > 0 %}
+                {% for key in app.session.flashbag.keys %}
+                    {% for flash in app.session.flashbag.get(key) %}
+                        <div class="alert alert-{{ key }} alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            {{ flash }}
+                        </div>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
-        {% block _page_body %}{% endblock %}
-    </div>
+            {% endif %}
+            {% block _page_body %}{% endblock %}
+        </div>
 
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-</body>
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+    </body>
+</html>
