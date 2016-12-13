@@ -1,0 +1,27 @@
+traefik:
+  image: traefik
+  command:  --web --docker --acme --acme.ondemand --acme.storage=acme.json --acme.entrypoint=https --acme.domains='exquisitecorpse.guyl.me, ec2-52-16-106-152.eu-west-1.compute.amazonaws.com' --acme.email=bastien@guyl.me --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --docker.domain=localhost --logLevel=INFO
+  ports:
+    - "80:80"
+    - "8080:8080"
+    - "443:443"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /dev/null:/traefik.toml
+    - /opt/acme/acme.json:/acme.json
+  labels:
+    - "traefik.enable=false"
+    
+exquisitecorpse:
+  image: mrvil/exquisitecorpse
+  links:
+    - mongo
+  labels:
+    - "traefik.backend=exquisitecorpse"
+    - "traefik.frontend.rule=Host:localhost, exquisitecorpse.guyl.me, ec2-52-16-106-152.eu-west-1.compute.amazonaws.com"
+    - "traefik.port=80"
+
+mongo:
+    image: mongo
+    volumes:
+      - /opt/data:/data
