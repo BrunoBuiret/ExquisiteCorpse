@@ -1,6 +1,6 @@
 traefik:
   image: traefik
-  command:  --web --docker --acme --acme.ondemand --acme.storage=acme.json --acme.entrypoint=https --acme.domains='exquisitecorpse.guyl.me, ec2-52-16-106-152.eu-west-1.compute.amazonaws.com' --acme.email=bastien@guyl.me --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --docker.domain=localhost --logLevel=DEBUG
+  command:  --web --docker --acme --acme.ondemand --acme.storage=acme.json --acme.entrypoint=https --acme.domains='exquisitecorpse.guyl.me, ec2-52-16-106-152.eu-west-1.compute.amazonaws.com' --acme.email=bastien@guyl.me --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS' --docker.domain=localhost --logLevel=INFO
   ports:
     - "80:80"
     - "8080:8080"
